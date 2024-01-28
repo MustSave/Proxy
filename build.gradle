@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+}
+
+import org.gradle.nativeplatform.platform.internal.Architectures
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
+def brotliVersion = "1.16.0"
+def operatingSystem = DefaultNativePlatform.getCurrentOperatingSystem()
+def currentArchitecture = DefaultNativePlatform.getCurrentArchitecture()
+
+group 'xyz.mustsave'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.9.2'
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+
+    implementation 'com.github.monkeywie:proxyee:1.7.6'
+    implementation 'org.jsoup:jsoup:1.17.2'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    implementation "com.aayushatharva.brotli4j:brotli4j:$brotliVersion"
+    runtimeOnly("""com.aayushatharva.brotli4j:native-${
+        if (operatingSystem.isWindows())
+            if (currentArchitecture.isX86_64()) "windows-x86_64"
+            else if (currentArchitecture.isArm()) "windows-aarch64"
+            else
+                throw new IllegalStateException("Unsupported architecture: ${currentArchitecture.getName()}");
+        else if (operatingSystem.isMacOsX())
+            if (currentArchitecture.isArm()) "osx-aarch64"
+            else "osx-x86_64"
+        else if (operatingSystem.isLinux())
+            if (currentArchitecture.isAARCH64()) "linux-aarch64"
+            else if (currentArchitecture.isX86_64()) "linux-x86_64"
+            else if (currentArchitecture.isARM_V7()) "linux-armv7"
+            else if (currentArchitecture.isPPC64LE()) "linux-ppc64le"
+            else if (currentArchitecture.isS390X()) "linux-s390x"
+            else if (currentArchitecture.isRISCV64()) "linux-riscv64"
+            else
+                throw new IllegalStateException("Unsupported architecture: ${currentArchitecture.getName()}");
+        else
+            throw new IllegalStateException("Unsupported operating system: $operatingSystem");
+    }:$brotliVersion""")
+}
+
+test {
+    useJUnitPlatform()
+}
