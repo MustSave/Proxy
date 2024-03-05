@@ -1,8 +1,5 @@
 import java.net.UnknownHostException;
 import java.nio.channels.ClosedChannelException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
 
 import com.github.monkeywie.proxyee.exception.HttpProxyExceptionHandle;
 import com.github.monkeywie.proxyee.intercept.HttpProxyInterceptInitializer;
@@ -15,6 +12,7 @@ import interceptor.request.DefaultHeaderInterceptor;
 import interceptor.request.RequestCookieInterceptor;
 import interceptor.response.CaptchaInterceptor;
 import interceptor.response.CloudFlareInterceptor;
+import interceptor.response.NetfunnelInterceptor;
 import interceptor.response.ResponseCookieInterceptor;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.DecoderException;
@@ -53,6 +51,7 @@ public class CrawlingProxy {
 					// pipeline.addLast(new HttpContentDecompressorAdaptor());
 					pipeline.addLast(new CloudFlareInterceptor());
 					pipeline.addLast(new CaptchaInterceptor());
+					pipeline.addLast(new NetfunnelInterceptor());
 
 					pipeline.addFirst(new RequestCookieInterceptor());
 					pipeline.addFirst(new DefaultHeaderInterceptor());

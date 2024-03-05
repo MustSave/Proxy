@@ -5,10 +5,9 @@ import org.jsoup.nodes.Document;
 
 import com.github.monkeywie.proxyee.intercept.HttpProxyInterceptPipeline;
 import com.github.monkeywie.proxyee.intercept.common.FullResponseIntercept;
-import com.github.monkeywie.proxyee.util.HttpUtil;
 
+import interceptor.HttpUtil;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.util.CharsetUtil;
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CloudFlareInterceptor extends FullResponseIntercept {
 	@Override
 	public boolean match(HttpRequest httpRequest, HttpResponse httpResponse, HttpProxyInterceptPipeline pipeline) {
-		return HttpUtil.checkHeader(httpResponse.headers(), HttpHeaderNames.CONTENT_TYPE, "^text/html.*$");
+		return HttpUtil.isHtml(httpResponse);
 	}
 
 	@Override

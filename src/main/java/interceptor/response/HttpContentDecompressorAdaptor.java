@@ -17,8 +17,7 @@ public class HttpContentDecompressorAdaptor extends FullResponseIntercept {
 	@Override
 	public boolean match(HttpRequest httpRequest, HttpResponse httpResponse, HttpProxyInterceptPipeline pipeline) {
 		String encoding = httpResponse.headers().get(HttpHeaderNames.CONTENT_ENCODING);
-		return com.github.monkeywie.proxyee.util.HttpUtil.checkHeader(httpResponse.headers(), HttpHeaderNames.CONTENT_TYPE, "^text/html.*$")
-			&& !StringUtil.isNullOrEmpty(encoding);
+		return HttpUtil.isHtml(httpResponse) && !StringUtil.isNullOrEmpty(encoding);
 	}
 
 	@Override
