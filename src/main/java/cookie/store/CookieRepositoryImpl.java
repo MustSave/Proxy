@@ -7,16 +7,14 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import io.netty.handler.codec.http.cookie.Cookie;
+import lombok.Getter;
 
 public class CookieRepositoryImpl implements CookieRepository{
+	@Getter
 	private static CookieRepositoryImpl instance = new CookieRepositoryImpl();
 	private final Map<String, Set<Cookie>> cookiesOfDomain = new HashMap<>();
 
 	private CookieRepositoryImpl() { }
-
-	public static CookieRepositoryImpl getInstance() {
-		return instance;
-	}
 
 	@Override
 	public Set<Cookie> getCookiesByDomain(String domain) {

@@ -5,17 +5,17 @@ import java.util.Set;
 import cookie.store.CookieRepository;
 import cookie.store.CookieRepositoryImpl;
 import io.netty.handler.codec.http.cookie.Cookie;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CookieServiceImpl implements CookieService {
+	@Getter
 	private static CookieServiceImpl instance = new CookieServiceImpl();
 	private final CookieRepository cookieRepository;
 
 	private CookieServiceImpl() {
 		this.cookieRepository = CookieRepositoryImpl.getInstance();
-	}
-
-	public static CookieServiceImpl getInstance() {
-		return instance;
 	}
 
 	@Override
