@@ -5,7 +5,9 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <logger name="interceptor" level="DEBUG"/>
+
+    <root level="info">
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
