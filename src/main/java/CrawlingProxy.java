@@ -1,5 +1,8 @@
 import java.net.UnknownHostException;
 import java.nio.channels.ClosedChannelException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 import com.github.monkeywie.proxyee.exception.HttpProxyExceptionHandle;
 import com.github.monkeywie.proxyee.intercept.HttpProxyInterceptInitializer;
@@ -15,7 +18,9 @@ import interceptor.response.CloudFlareInterceptor;
 import interceptor.response.ResponseCookieInterceptor;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.DecoderException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CrawlingProxy {
 	public static void main(String[] args) {
 		HttpProxyServerConfig config = new HttpProxyServerConfig();
@@ -27,7 +32,7 @@ public class CrawlingProxy {
 			port = Integer.parseInt(System.getenv("PORT"));
 		} catch (NumberFormatException e) { }
 
-		System.out.printf("Start Proxy Server using port %d", port);
+		log.info("Start Proxy Server using port {}", port);
 		new HttpProxyServer()
 			// .serverConfig(config).caCertFactory(new CertFactory())
 			.httpProxyExceptionHandle(new HttpProxyExceptionHandle() {

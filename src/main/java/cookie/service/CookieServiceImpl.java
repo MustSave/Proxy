@@ -25,7 +25,7 @@ public class CookieServiceImpl implements CookieService {
 
 	@Override
 	public void saveCookie(Cookie cookie) {
-		System.out.println("saved cookie = " + cookie);
+		log.debug("cookie saved. cookie = {}", cookie);
 		cookieRepository.saveCookie(cookie);
 	}
 }

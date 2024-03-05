@@ -12,7 +12,9 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CloudFlareInterceptor extends FullResponseIntercept {
 	@Override
 	public boolean match(HttpRequest httpRequest, HttpResponse httpResponse, HttpProxyInterceptPipeline pipeline) {
@@ -30,7 +32,7 @@ public class CloudFlareInterceptor extends FullResponseIntercept {
 			.anyMatch(element -> element.html().contains("cf_chl_opt"));
 
 		if (doBypass) {
-			System.out.println("클라우드 플레어 탐지");
+			log.error("CloudFlare Bot Detection detected. Bypass logic will be add soon...");
 		}
 	}
 }

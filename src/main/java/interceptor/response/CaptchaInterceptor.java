@@ -12,7 +12,9 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CaptchaInterceptor extends FullResponseIntercept {
 	@Override
 	public boolean match(HttpRequest httpRequest, HttpResponse httpResponse, HttpProxyInterceptPipeline pipeline) {
@@ -26,10 +28,10 @@ public class CaptchaInterceptor extends FullResponseIntercept {
 		String response = httpResponse.content().toString(CharsetUtil.UTF_8);
 
 		Document document = Jsoup.parse(response);
-		boolean doBypass = document.select("div.g-recaptcha").size() > 0;
+		boolean doBypass = !document.select("div.g-recaptcha").isEmpty();
 
 		if (doBypass) {
-			System.out.println("캡차 탐지");
+			log.error("Google Captcha detected. Bypass logic will be add soon...");
 		}
 	}
 }
